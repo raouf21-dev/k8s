@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+  labels:
+    app: phpmyadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+        - name: phpmyadmin
+          image: phpmyadmin:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: PMA_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DB_SERVER
+            - name: MYSQL_ROOT_PASSWORD       # password to login to MySQL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret             # reads from your Secret
+                  key: db_root_pwd
+            - name: MYSQL_USER              # username to login to MySQL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret             # reads from your Secret
+                  key: PMA_USER
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+spec:
+  selector:
+    app: phpmyadmin
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 80
