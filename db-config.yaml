@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: db-config
 data:
-  DB_SERVER: mysql-primary
+  DB_SERVER: mysql-primary # This should match the hostname of your MySQL service or stateful set
