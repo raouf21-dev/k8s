@@ -1,0 +1,27 @@
+appName: phpmyadmin-deployment
+appImage: phpmyadmin
+appVersion: latest
+appReplicas: 1
+containerPort: 80
+# serviceType: ClusterIP
+containerEnvVars:
+  - name: PMA_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: db-config
+        key: DB_SERVER
+
+  - name: DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: PMA_USER
+
+  - name: MYSQL_ROOT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: db_root_pwd
+        
+servicePort: 8081
+serviceType: ClusterIP

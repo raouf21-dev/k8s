@@ -1,0 +1,19 @@
+appName: servicename
+appImage: santana20095/demo-java-app
+appVersion: 1.1
+appReplicas: 2
+containerPort: 8080
+serviceType: ClusterIP
+servicePort: 8080
+containerEnvVars:
+  - key: DB_USER
+    value: root
+  - key: DB_PWD
+    value: password
+  - key: DB_NAME
+    value: mydb
+  - key: DB_SERVER
+    value: mysql-service 
+
+servicePort: 8080
+serviceType: ClusterIP

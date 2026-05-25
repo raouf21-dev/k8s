@@ -1,0 +1,28 @@
+appName: java-app-deployment
+appImage: santana20095/demo-java-app
+appVersion: 1.1
+appReplicas: 2
+containerPort: 8080
+serviceType: ClusterIP
+servicePort: 8080
+containerEnvVars:
+  - name: DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: db_user
+  - name: DB_PWD
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: db_pwd
+  - name: DB_NAME
+    valueFrom:
+      secretKeyRef:
+        name: db-secret
+        key: db_name
+  - name: DB_SERVER
+    valueFrom:
+      configMapKeyRef:
+        name: db-config
+        key: DB_SERVER
